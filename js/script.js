@@ -1,11 +1,28 @@
-// FUNCIÓN PARA VERIFICAR RESPUESTAS
+// ------------------------------------------------------
+// Cargar sonidos
+// ------------------------------------------------------
+const sonidoAcierto = new Audio("sounds/acierto.mp3");
+const sonidoError = new Audio("sounds/error.mp3");
+
+sonidoAcierto.volume = 0.45;
+sonidoError.volume = 0.45;
+
+// Para evitar que haga doble clic mientras se anima
+let bloqueo = false;
+
+
+// ------------------------------------------------------
+// Verificar respuesta automáticamente al hacer clic
+// ------------------------------------------------------
 function verificarRespuesta(pregunta) {
-    // Obtener el valor seleccionado del grupo de entrantes
-    const opciones = document.getElementsByName('entrante');
+
+    if (bloqueo) return;
+    bloqueo = true;
+
+    const opciones = document.getElementsByName(pregunta);
     let seleccionada = null;
     let radioSeleccionado = null;
 
-    // Buscar cuál opción está seleccionada
     for (let i = 0; i < opciones.length; i++) {
         if (opciones[i].checked) {
             seleccionada = opciones[i].value;
@@ -14,190 +31,122 @@ function verificarRespuesta(pregunta) {
         }
     }
 
-    // Verificar si se seleccionó alguna opción
-    if (seleccionada === null) {
-        mostrarMensaje("Por favor, selecciona una respuesta.", "advertencia");
-        return;
-    }
+    const config = {
+        pregunta1:  { correcta:"respuesta2",  img:"img_entrantes",   blur:"6px", hide:"div_p1", show:"div_p2" },
+        pregunta2:  { correcta:"respuesta8",  img:"img_entrantes",   blur:"3px", hide:"div_p2", show:"div_p3" },
+        pregunta3:  { correcta:"respuesta11", img:"img_entrantes",   blur:"0px", hide:"div_p3", show:"div_continuar" },
 
-    // Variables para controlar el difuminado y los divs
-    let img_difuminar = null;
-    let difuminado = null;
-    let div_aparece = null;
-    let div_desaparece = null;
+        pregunta4:  { correcta:"resp_prin2",  img:"img_principales", blur:"6px", hide:"div_p1", show:"div_p2" },
+        pregunta5:  { correcta:"resp_prin5",  img:"img_principales", blur:"3px", hide:"div_p2", show:"div_p3" },
+        pregunta6:  { correcta:"resp_prin11", img:"img_principales", blur:"0px", hide:"div_p3", show:"div_continuar" },
 
-    // Definir respuesta correcta según la pregunta
-    let respuestaCorrecta = null; 
-    switch (pregunta) {
-        case "pregunta1":
-            respuestaCorrecta = "respuesta2";
-            img_difuminar = "img_entrantes";
-            difuminado = "blur(6px)";
-            div_desaparece = "div_p1";
-            div_aparece = "div_p2";
-            break;
-        case "pregunta2":
-            respuestaCorrecta = "respuesta8";
-            img_difuminar = "img_entrantes";
-            difuminado = "blur(3px)";
-            div_desaparece = "div_p2";
-            div_aparece = "div_p3";
-            break;
-        case "pregunta3":
-            respuestaCorrecta = "respuesta11";
-            img_difuminar = "img_entrantes";
-            difuminado = "blur(0px)";
-            div_desaparece = "div_p3";
-            div_aparece = "div_continuar";
-            break;
-        case "pregunta4":
-            respuestaCorrecta = "resp_prin2";
-            img_difuminar = "img_principales";
-            difuminado = "blur(6px)";
-            div_desaparece = "div_p1";
-            div_aparece = "div_p2";
-            break;
-        case "pregunta5":
-            respuestaCorrecta = "resp_prin5";
-            img_difuminar = "img_principales";
-            difuminado = "blur(3px)";
-            div_desaparece = "div_p2";
-            div_aparece = "div_p3";
-            break;
-        case "pregunta6":
-            respuestaCorrecta = "resp_prin11";
-            img_difuminar = "img_principales";
-            difuminado = "blur(0px)";
-            div_desaparece = "div_p3";
-            div_aparece = "div_continuar";
-            break;
-        case "pregunta7":
-            respuestaCorrecta = "resp_postre3";
-            img_difuminar = "img_postres";
-            difuminado = "blur(5px)";
-            div_desaparece = "div_p1";
-            div_aparece = "div_p2";
-            break;
-        case "pregunta8":
-            respuestaCorrecta = "resp_postre8";
-            img_difuminar = "img_postres";
-            difuminado = "blur(0px)";
-            div_desaparece = "div_p2";
-            div_aparece = "div_continuar";
-            break;
-        case "pregunta9":
-            respuestaCorrecta = "resp_bebida4";
-            img_difuminar = "img_bebidas";
-            difuminado = "blur(9px)";
-            div_desaparece = "div_p1";
-            div_aparece = "div_p2";
-            break;
-        case "pregunta10":
-            respuestaCorrecta = "resp_bebida7";
-            img_difuminar = "img_bebidas";
-            difuminado = "blur(6px)";
-            div_desaparece = "div_p2";
-            div_aparece = "div_p3";
-            break;
-        case "pregunta11":
-            respuestaCorrecta = "resp_bebida10";
-            img_difuminar = "img_bebidas";
-            difuminado = "blur(3px)";
-            div_desaparece = "div_p3";
-            div_aparece = "div_p4";
-            break;
-        case "pregunta12":
-            respuestaCorrecta = "resp_bebida9";
-            img_difuminar = "img_bebidas";
-            difuminado = "blur(0px)";
-            div_desaparece = "div_p4";
-            div_aparece = "div_continuar";
-            break;
-        default:
-            respuestaCorrecta = "ninguna";
-    }
+        pregunta7:  { correcta:"resp_postre3", img:"img_postres",    blur:"5px", hide:"div_p1", show:"div_p2" },
+        pregunta8:  { correcta:"resp_postre8", img:"img_postres",    blur:"0px", hide:"div_p2", show:"div_continuar" },
 
-    // Obtener el label de la opción seleccionada
+        pregunta9:  { correcta:"resp_bebida4", img:"img_bebidas",    blur:"9px", hide:"div_p1", show:"div_p2" },
+        pregunta10: { correcta:"resp_bebida7", img:"img_bebidas",    blur:"6px", hide:"div_p2", show:"div_p3" },
+        pregunta11: { correcta:"resp_bebida10",img:"img_bebidas",    blur:"3px", hide:"div_p3", show:"div_p4" },
+        pregunta12: { correcta:"resp_bebida9", img:"img_bebidas",    blur:"0px", hide:"div_p4", show:"div_continuar" }
+    };
+
+    const p = config[pregunta];
     const labelSeleccionado = document.querySelector(`label[for="${seleccionada}"]`);
 
-    // Verificar si la respuesta es correcta
-    if (seleccionada === respuestaCorrecta) {
-        // Marcar como correcta (verde)
+
+    // ------------------------------------------------------
+    // RESPUESTA CORRECTA
+    // ------------------------------------------------------
+    if (seleccionada === p.correcta) {
+
+        sonidoAcierto.currentTime = 0;
+        sonidoAcierto.play();
+
         labelSeleccionado.classList.add('correcta');
-        labelSeleccionado.classList.remove('incorrecta');
-        
-        // Esperar 1 segundo antes de continuar
-        setTimeout(function() {
-            document.getElementById(img_difuminar).style.filter = difuminado;
-            document.getElementById(div_desaparece).style.display = "none";
-            document.getElementById(div_aparece).style.display = "block";
-        }, 1000);
-        
+
+        setTimeout(() => {
+
+            document.getElementById(p.img).style.filter = `blur(${p.blur})`;
+
+            document.getElementById(p.hide).style.display = "none";
+
+            const siguiente = document.getElementById(p.show);
+            siguiente.style.display = "block";
+            siguiente.classList.add("pregunta-activa");
+
+            bloqueo = false;
+
+        }, 900);
+
+
+    // ------------------------------------------------------
+    // RESPUESTA INCORRECTA
+    // ------------------------------------------------------
     } else {
-        // Marcar como incorrecta (rojo)
+
+        sonidoError.currentTime = 0;
+        sonidoError.play();
+
         labelSeleccionado.classList.add('incorrecta');
-        labelSeleccionado.classList.remove('correcta');
-        
-        // Quitar el color después de 2 segundos
-        setTimeout(function() {
+
+        // 🔔 AVISO SUPER VISIBLE
+        mostrarMensaje("❌ ¡Ups! Esa no es la correcta 😅");
+
+        setTimeout(() => {
             labelSeleccionado.classList.remove('incorrecta');
-            // Desmarcar el radio button
             radioSeleccionado.checked = false;
-        }, 2000);
+            bloqueo = false;
+        }, 500);
     }
 }
 
-// FUNCIÓN PARA MOSTRAR MENSAJES (opcional, para advertencias)
-function mostrarMensaje(mensaje, tipo) {
-    // Crear elemento de notificación
-    const notificacion = document.createElement('div');
-    notificacion.style.cssText = `
+
+
+// ------------------------------------------------------
+// ❄️ NIEVE SUPER CHACHI
+// ------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const cantidad = 60;
+    for (let i = 0; i < cantidad; i++) {
+        const c = document.createElement("div");
+        c.className = "snowflake";
+        c.textContent = "❄";
+        c.style.setProperty("--x", Math.random());
+        c.style.setProperty("--d", Math.random());
+        document.body.appendChild(c);
+    }
+});
+
+
+// ------------------------------------------------------
+// MENSAJE EMERGENTE
+// ------------------------------------------------------
+function mostrarMensaje(mensaje) {
+    const n = document.createElement("div");
+    n.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: rgba(196, 30, 58, 0.95);
+        background: #c41e3a;
         color: white;
-        padding: 15px 25px;
+        padding: 15px 22px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        z-index: 1000;
         font-weight: bold;
-        animation: slideIn 0.3s ease;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 9999;
+        animation: aparecer 0.3s ease;
     `;
-    notificacion.textContent = mensaje;
-    
-    document.body.appendChild(notificacion);
-    
-    // Eliminar después de 3 segundos
-    setTimeout(() => {
-        notificacion.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notificacion.remove(), 300);
-    }, 3000);
+    n.textContent = mensaje;
+    document.body.appendChild(n);
+
+    setTimeout(() => n.remove(), 1800);
 }
 
-// Agregar animaciones para las notificaciones
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
+// Animación del aviso
+const anim = document.createElement("style");
+anim.textContent = `
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}`;
+document.head.appendChild(anim);
