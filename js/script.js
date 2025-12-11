@@ -1,6 +1,6 @@
-// ------------------------------------------------------
+
 // Cargar sonidos
-// ------------------------------------------------------
+
 const sonidoAcierto = new Audio("sounds/acierto.mp3");
 const sonidoError = new Audio("sounds/error.mp3");
 
@@ -11,9 +11,9 @@ sonidoError.volume = 0.45;
 let bloqueo = false;
 
 
-// ------------------------------------------------------
+
 // Verificar respuesta automáticamente al hacer clic
-// ------------------------------------------------------
+
 function verificarRespuesta(pregunta) {
 
     if (bloqueo) return;
@@ -46,16 +46,15 @@ function verificarRespuesta(pregunta) {
         pregunta9:  { correcta:"resp_bebida4", img:"img_bebidas",    blur:"9px", hide:"div_p1", show:"div_p2" },
         pregunta10: { correcta:"resp_bebida7", img:"img_bebidas",    blur:"6px", hide:"div_p2", show:"div_p3" },
         pregunta11: { correcta:"resp_bebida10",img:"img_bebidas",    blur:"3px", hide:"div_p3", show:"div_p4" },
-        pregunta12: { correcta:"resp_bebida9", img:"img_bebidas",    blur:"0px", hide:"div_p4", show:"div_continuar" }
+        pregunta12: { correcta:"resp_bebida13", img:"img_bebidas",    blur:"0px", hide:"div_p4", show:"div_continuar" }
     };
 
     const p = config[pregunta];
     const labelSeleccionado = document.querySelector(`label[for="${seleccionada}"]`);
 
 
-    // ------------------------------------------------------
+
     // RESPUESTA CORRECTA
-    // ------------------------------------------------------
     if (seleccionada === p.correcta) {
 
         sonidoAcierto.currentTime = 0;
@@ -78,9 +77,8 @@ function verificarRespuesta(pregunta) {
         }, 900);
 
 
-    // ------------------------------------------------------
+
     // RESPUESTA INCORRECTA
-    // ------------------------------------------------------
     } else {
 
         sonidoError.currentTime = 0;
@@ -88,7 +86,6 @@ function verificarRespuesta(pregunta) {
 
         labelSeleccionado.classList.add('incorrecta');
 
-        // 🔔 AVISO SUPER VISIBLE
         mostrarMensaje("❌ ¡Ups! Esa no es la correcta 😅");
 
         setTimeout(() => {
@@ -101,9 +98,8 @@ function verificarRespuesta(pregunta) {
 
 
 
-// ------------------------------------------------------
-// ❄️ NIEVE SUPER CHACHI
-// ------------------------------------------------------
+// NIEVE
+
 document.addEventListener("DOMContentLoaded", () => {
     const cantidad = 60;
     for (let i = 0; i < cantidad; i++) {
@@ -117,9 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ------------------------------------------------------
+
 // MENSAJE EMERGENTE
-// ------------------------------------------------------
+
 function mostrarMensaje(mensaje) {
     const n = document.createElement("div");
     n.style.cssText = `

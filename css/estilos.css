@@ -18,9 +18,8 @@ body {
   padding: 1.5rem;
 }
 
-/* ---------------------- */
+
 /* CONTENEDORES GENERALES */
-/* ---------------------- */
 
 #introduccion,
 .contenedor-juego,
@@ -34,7 +33,7 @@ body {
   position: relative;
   text-align: center;
 
-  /* 🎄 Marco navideño */
+  /* Marco navideño */
   border: 10px solid transparent;
   border-image: repeating-linear-gradient(
       90deg,
@@ -73,9 +72,8 @@ body {
 }
 
 
-/* ---------------------- */
+
 /* TITULOS DE PREGUNTAS   */
-/* ---------------------- */
 
 #div_p1 p:first-of-type,
 #div_p2 p:first-of-type,
@@ -99,7 +97,7 @@ body {
   margin-bottom: 1.4rem;
 }
 
-/* Ocultación por defecto (menos p1) */
+/* Ocultación por defecto */
 #div_p2,
 #div_p3,
 #div_p4,
@@ -117,9 +115,8 @@ body {
 }
 
 
-/* ---------------------- */
+
 /* OPCIONES DE RESPUESTA  */
-/* ---------------------- */
 
 form {
   display: flex;
@@ -188,9 +185,8 @@ label.incorrecta::before {
 }
 
 
-/* ---------------------- */
+
 /* BOTONES                */
-/* ---------------------- */
 
 .boton {
   padding: 15px 40px;
@@ -214,9 +210,8 @@ label.incorrecta::before {
 }
 
 
-/* ---------------------- */
-/* ❄️ NIEVE               */
-/* ---------------------- */
+
+/*  NIEVE               */
 
 .snowflake {
   position: fixed;
@@ -236,9 +231,9 @@ label.incorrecta::before {
 }
 
 
-/* ---------------------- */
-/* 📱 MÓVILES GENERALES   */
-/* ---------------------- */
+
+/* MÓVILES GENERALES   */
+
 
 @media (max-width: 600px) {
 
@@ -267,9 +262,9 @@ label.incorrecta::before {
 }
 
 
-/* ----------------------------- */
-/* 📱 ESTILOS ESPECIALES INDEX   */
-/* ----------------------------- */
+
+/* ESTILOS ESPECIALES INDEX   */
+
 
 body.index-page {
     display: block !important;
@@ -330,9 +325,10 @@ body.index-page .boton {
     font-size: 1.25rem;
     margin-top: 1rem;
 }
-/* -------------------------------------------- */
-/* 🎄 ESTILOS PARA TODAS LAS PÁGINAS DEL JUEGO  */
-/* -------------------------------------------- */
+
+
+
+/* ESTILOS PARA TODAS LAS PÁGINAS DEL JUEGO  */
 
 body.juego-page {
     display: flex !important;
@@ -341,4 +337,51 @@ body.juego-page {
     min-height: 100vh !important;
     padding: 1.5rem !important;
     overflow-x: hidden !important;
+}
+
+
+/* -------------------------------------------- */
+/* 🎄 ESTILOS PÁGINA FINAL (fin.html)          */
+/* -------------------------------------------- */
+
+#contenedor-final {
+    max-width: 900px;
+    padding: 2.5rem;
+}
+
+#contenedor-final h1 {
+    font-family: 'Mountains of Christmas', cursive;
+    color: #c41e3a;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+#contenedor-final img {
+    width: 70%;
+    max-width: 500px;
+    border-radius: 15px;
+    margin: 0.5rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contenedor-final img:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(196, 30, 58, 0.3);
+}
+
+@media (max-width: 768px) {
+    #contenedor-final {
+        padding: 1.8rem;
+    }
+
+    #contenedor-final h1 {
+        font-size: 2rem;
+    }
+
+    #contenedor-final img {
+        width: 100%;
+        margin: 0.8rem 0;
+    }
 }
